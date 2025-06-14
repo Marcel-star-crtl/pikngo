@@ -1,5 +1,120 @@
 const mongoose = require('mongoose');
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Task:
+ *       type: object
+ *       properties:
+ *         _id:
+ *           type: string
+ *           description: Unique identifier for the task
+ *         title:
+ *           type: string
+ *           description: Title of the task
+ *         description:
+ *           type: string
+ *           description: Detailed description of the task
+ *         category:
+ *           type: string
+ *           enum: [delivery, housework, maintenance, shopping, other]
+ *           description: Category of the task
+ *         budget:
+ *           type: number
+ *           description: Budget allocated for the task
+ *         price:
+ *           type: number
+ *           description: Final price of the task
+ *         creator:
+ *           type: string
+ *           description: User ID of the task creator
+ *         doer:
+ *           type: string
+ *           description: User ID of the assigned doer
+ *         status:
+ *           type: string
+ *           enum: [pending, assigned, in_progress, completed, cancelled]
+ *           description: Current status of the task
+ *         paymentStatus:
+ *           type: string
+ *           enum: [unpaid, pending, paid]
+ *           description: Payment status of the task
+ *         location:
+ *           type: object
+ *           properties:
+ *             type:
+ *               type: string
+ *               enum: [Point]
+ *               default: Point
+ *             coordinates:
+ *               type: array
+ *               items:
+ *                 type: number
+ *               description: [longitude, latitude]
+ *             address:
+ *               type: string
+ *               description: Human-readable address
+ *         scheduledDate:
+ *           type: string
+ *           format: date-time
+ *           description: Date and time when the task is scheduled
+ *         completionDate:
+ *           type: string
+ *           format: date-time
+ *           description: Date and time when the task was completed
+ *         images:
+ *           type: array
+ *           items:
+ *             type: object
+ *             properties:
+ *               url:
+ *                 type: string
+ *               publicId:
+ *                 type: string
+ *         ratings:
+ *           type: object
+ *           properties:
+ *             fromUser:
+ *               type: object
+ *               properties:
+ *                 rating:
+ *                   type: number
+ *                   minimum: 1
+ *                   maximum: 5
+ *                 review:
+ *                   type: string
+ *                 date:
+ *                   type: string
+ *                   format: date-time
+ *             fromDoer:
+ *               type: object
+ *               properties:
+ *                 rating:
+ *                   type: number
+ *                   minimum: 1
+ *                   maximum: 5
+ *                 review:
+ *                   type: string
+ *                 date:
+ *                   type: string
+ *                   format: date-time
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *       required:
+ *         - title
+ *         - description
+ *         - category
+ *         - budget
+ *         - price
+ *         - creator
+ *         - location
+ *         - scheduledDate
+ */
 const taskSchema = new mongoose.Schema({
   budget: {
     type: Number,

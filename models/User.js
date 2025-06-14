@@ -1,6 +1,187 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       properties:
+ *         _id:
+ *           type: string
+ *           description: Unique identifier for the user
+ *         email:
+ *           type: string
+ *           format: email
+ *           description: Email address of the user
+ *         phone:
+ *           type: string
+ *           description: Phone number of the user
+ *         fullName:
+ *           type: string
+ *           description: Full name of the user
+ *         role:
+ *           type: string
+ *           enum: [user, doer, admin]
+ *           description: Role of the user in the system
+ *         emailVerified:
+ *           type: boolean
+ *           description: Whether the email has been verified
+ *         phoneVerified:
+ *           type: boolean
+ *           description: Whether the phone number has been verified
+ *         status:
+ *           type: string
+ *           enum: [verified, unverified, pending]
+ *           description: User verification status
+ *         profilePhoto:
+ *           type: object
+ *           properties:
+ *             url:
+ *               type: string
+ *             verified:
+ *               type: boolean
+ *         location:
+ *           $ref: '#/components/schemas/Location'
+ *         spokenLanguages:
+ *           type: array
+ *           items:
+ *             type: object
+ *             properties:
+ *               language:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *               proficiency:
+ *                 type: string
+ *                 enum: [basic, intermediate, fluent, native]
+ *         preferredPaymentMethods:
+ *           type: array
+ *           items:
+ *             type: string
+ *             enum: [bank_transfer, mobile_money, cash]
+ *         paymentDetails:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/PaymentDetails'
+ *         doerProfile:
+ *           $ref: '#/components/schemas/DoerProfile'
+ *         profileCompletionPercentage:
+ *           type: number
+ *           description: Percentage of profile completion
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *     
+ *     PaymentDetails:
+ *       type: object
+ *       properties:
+ *         type:
+ *           type: string
+ *           enum: [bank, mobile_money]
+ *         accountName:
+ *           type: string
+ *         accountNumber:
+ *           type: string
+ *         bankName:
+ *           type: string
+ *         bankCode:
+ *           type: string
+ *         mobileMoneyProvider:
+ *           type: string
+ *         mobileMoneyNumber:
+ *           type: string
+ *     
+ *     Location:
+ *       type: object
+ *       properties:
+ *         type:
+ *           type: string
+ *           enum: [Point]
+ *           default: Point
+ *         coordinates:
+ *           type: array
+ *           items:
+ *             type: number
+ *           description: [longitude, latitude]
+ *         address:
+ *           type: string
+ *         city:
+ *           type: string
+ *         country:
+ *           type: string
+ *     
+ *     DoerProfile:
+ *       type: object
+ *       properties:
+ *         availability:
+ *           type: object
+ *           properties:
+ *             schedule:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   day:
+ *                     type: string
+ *                     enum: [monday, tuesday, wednesday, thursday, friday, saturday, sunday]
+ *                   available:
+ *                     type: boolean
+ *                   hours:
+ *                     type: object
+ *                     properties:
+ *                       from:
+ *                         type: string
+ *                       to:
+ *                         type: string
+ *             status:
+ *               type: string
+ *               enum: [available, busy, unavailable]
+ *         skills:
+ *           type: array
+ *           items:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               yearsOfExperience:
+ *                 type: number
+ *               certification:
+ *                 type: string
+ *         services:
+ *           type: array
+ *           items:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               basePrice:
+ *                 type: number
+ *               category:
+ *                 type: string
+ *         ratings:
+ *           type: object
+ *           properties:
+ *             average:
+ *               type: number
+ *             count:
+ *               type: number
+ *         completedTasks:
+ *           type: number
+ *         currentLocation:
+ *           $ref: '#/components/schemas/Location'
+ *         preferredRadius:
+ *           type: number
+ *         hourlyRate:
+ *           type: number
+ */
+
 const paymentDetailsSchema = new mongoose.Schema({
     type: {
         type: String,

@@ -1,5 +1,83 @@
 const mongoose = require('mongoose');
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Notification:
+ *       type: object
+ *       properties:
+ *         _id:
+ *           type: string
+ *           description: Unique identifier for the notification
+ *         recipient:
+ *           type: string
+ *           description: User ID of the notification recipient
+ *         type:
+ *           type: string
+ *           enum: [task_created, task_updated, task_assigned, task_completed, task_cancelled, payment_received, payment_sent, new_message, rating_received, system_notification]
+ *           description: Type of notification
+ *         title:
+ *           type: string
+ *           description: Notification title
+ *         message:
+ *           type: string
+ *           description: Notification message content
+ *         data:
+ *           type: object
+ *           properties:
+ *             taskId:
+ *               type: string
+ *               description: Related task ID if applicable
+ *             paymentId:
+ *               type: string
+ *               description: Related payment ID if applicable
+ *             senderId:
+ *               type: string
+ *               description: User ID of the sender if applicable
+ *             additionalData:
+ *               type: object
+ *               description: Any additional data related to the notification
+ *         priority:
+ *           type: string
+ *           enum: [low, medium, high]
+ *           description: Priority level of the notification
+ *         read:
+ *           type: boolean
+ *           description: Whether the notification has been read
+ *         readAt:
+ *           type: string
+ *           format: date-time
+ *           description: Date and time when the notification was read
+ *         expireAt:
+ *           type: string
+ *           format: date-time
+ *           description: Date and time when the notification will expire
+ *         deliveryStatus:
+ *           type: object
+ *           properties:
+ *             socket:
+ *               type: string
+ *               enum: [pending, sent, failed]
+ *               description: Socket delivery status
+ *             push:
+ *               type: string
+ *               enum: [pending, sent, failed]
+ *               description: Push notification delivery status
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *           description: Date and time when the notification was created
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *           description: Date and time when the notification was last updated
+ *       required:
+ *         - recipient
+ *         - type
+ *         - title
+ *         - message
+ */
 const notificationSchema = new mongoose.Schema({
   recipient: {
     type: mongoose.Schema.Types.ObjectId,
