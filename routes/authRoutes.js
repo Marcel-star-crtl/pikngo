@@ -286,7 +286,7 @@ router.post('/verify-phone', authController.verifyPhone);
  *       500:
  *         description: Server error
  */
-router.get('/users', authMiddleware, requireRoles('admin'), async (req, res) => {
+router.get('/users', authMiddleware, async (req, res) => {
     try {
         const { role, page = 1, limit = 10, verificationStatus } = req.query;
         
