@@ -23,7 +23,7 @@ const options = {
         description: 'Development server'
       },
       {
-        url: 'https://api.pikngo.com',
+        url: 'https://pikngo-1k8u.onrender.com',
         description: 'Production server'
       }
     ],
@@ -293,18 +293,54 @@ const customCss = `
   .swagger-ui .opblock.opblock-put { background: rgba(252, 161, 48, 0.1); }
   .swagger-ui .opblock.opblock-delete { background: rgba(249, 62, 62, 0.1); }
   .swagger-ui .opblock.opblock-patch { background: rgba(80, 227, 194, 0.1); }
+  .download-section {
+    padding: 10px 20px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    margin: 20px 0;
+    border: 1px solid #dee2e6;
+  }
+  .download-btn {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 5px 10px 5px 0;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+`;
+
+// Custom HTML to add download buttons
+const customSiteTitle = 'PiknGo API Documentation';
+const customfavIcon = 'https://nodejs.org/static/images/logo.svg';
+
+// Add download section to the top of the Swagger UI
+const swaggerHtml = `
+<div class="download-section">
+  <h3>Download API Documentation</h3>
+  <p>Download the API documentation to import into Postman or other API tools:</p>
+  <a href="/api-docs/download" class="download-btn">Download Documentation</a>
+</div>
 `;
 
 // Setup Swagger UI with custom options
 const swaggerUiOptions = {
   explorer: true,
   customCss,
+  customSiteTitle,
+  customfavIcon,
   swaggerOptions: {
     persistAuthorization: true,
     docExpansion: 'none',
     filter: true,
     tagsSorter: 'alpha'
-  }
+  },
+  customJs: '/swagger-ui-download.js'
 };
 
 module.exports = {
